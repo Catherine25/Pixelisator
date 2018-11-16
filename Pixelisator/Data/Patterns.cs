@@ -5,7 +5,10 @@ namespace Pixelisator.Data
     static class Patterns
     {
         //data
-        static Patterns() { }
+        static Patterns()
+        {
+            //Progress.Counter = 0;
+        }
         static Color curPixel = Color.Transparent,
             upPixel = Color.Transparent,
             rightPixel = Color.Transparent,
@@ -16,13 +19,9 @@ namespace Pixelisator.Data
             downLeftPixel = Color.Transparent,
             leftUpPixel = Color.Transparent;
         static public Bitmap Bitmap { get; set; }
+        static public event System.Action ChangedOnce;
 
-        static public void ImageToBitmap(Image image)
-        {
-            //Bitmap = new Bitmap(image.Width, image.Height);
-            //Bitmap = (Bitmap)image;
-            Bitmap = (Bitmap)image;
-        }
+        static public void ImageToBitmap(Image image) => Bitmap = (Bitmap)image;
 
         //- -- -+- -- - Drawing Patterns - -- -+- -- -
         public static void PlusEdit()
@@ -49,18 +48,16 @@ namespace Pixelisator.Data
                                     continue;
                                 }
                 }
-                //progressBar1.Increment(1);
             }
+            ChangedOnce();
         }
 
         public static void TriangleEdit()
         {
-
             for (int x = 1; x < Bitmap.Width - 2; x++)
             {
                 for (int y = 1; y < Bitmap.Height - 2; y++)
                 {
-
                     //store pixels
                     curPixel = Bitmap.GetPixel(x, y);
                     upPixel = Bitmap.GetPixel(x, y - 1);
@@ -108,8 +105,8 @@ namespace Pixelisator.Data
                                 continue;
                             }
                 }
-                //progressBar1.Increment(1);
             }
+            ChangedOnce();
         }
 
         public static void CrossEdit()
@@ -118,7 +115,6 @@ namespace Pixelisator.Data
             {
                 for (int y = 1; y < Bitmap.Height - 2; y++)
                 {
-
                     //store pixels
                     curPixel = Bitmap.GetPixel(x, y);
                     upRightPixel = Bitmap.GetPixel(x + 1, y - 1);
@@ -136,8 +132,8 @@ namespace Pixelisator.Data
                                     Progress.Counter++;
                                 }
                 }
-                //progressBar1.Increment(1);
             }
+            ChangedOnce();
         }
 
         public static void LighterEdit()
@@ -190,8 +186,8 @@ namespace Pixelisator.Data
                             continue;
                         }
                 }
-                //progressBar1.Increment(1);
             }
+            ChangedOnce();
         }
 
         public static void DarkerEdit()
@@ -244,8 +240,8 @@ namespace Pixelisator.Data
                             continue;
                         }
                 }
-                //progressBar1.Increment(1);
             }
+            ChangedOnce();
         }
     }
 }

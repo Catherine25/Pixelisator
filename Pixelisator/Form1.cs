@@ -23,13 +23,10 @@ namespace Pixelisator
             button5.Click += Button5_Click;
             button6.Click += Button6_Click;
             button7.Click += Button7_Click;
-            Data.Progress.CounterChanged += Progress_CounterChanged;
+            Data.Patterns.ChangedOnce += ChangedOnce;
         }
 
-        private void Progress_CounterChanged()
-        {
-            MessageBox.Show("Completed! There are " + Data.Progress.Counter.ToString() + " pixels changed!");
-        }
+        private void ChangedOnce() => MessageBox.Show("Completed! There are " + Data.Progress.Counter.ToString() + " pixels changed!");
 
         //- -- -+- -- - File Part - -- -+- -- -
         void OpenImage()
@@ -60,10 +57,7 @@ namespace Pixelisator
         {
             if (isOpened)
             {
-                SaveFileDialog sfd = new SaveFileDialog
-                {
-                    Filter = "Images|*.png;*.bmp;*.jpg"
-                };
+                SaveFileDialog sfd = new SaveFileDialog { Filter = "Images|*.png;*.bmp;*.jpg" };
                 ImageFormat format = ImageFormat.Png;
                 if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
