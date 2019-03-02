@@ -30,18 +30,20 @@
         {
             this.LeftPicture = new System.Windows.Forms.PictureBox();
             this.RightPicture = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.openBt = new System.Windows.Forms.Button();
+            this.saveBt = new System.Windows.Forms.Button();
+            this.redBt = new System.Windows.Forms.Button();
+            this.greenBt = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.button5 = new System.Windows.Forms.Button();
+            this.blueBt = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.LeftPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RightPicture)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // LeftPicture
@@ -55,48 +57,48 @@
             // 
             // RightPicture
             // 
-            this.RightPicture.Location = new System.Drawing.Point(441, 12);
+            this.RightPicture.Location = new System.Drawing.Point(435, 12);
             this.RightPicture.Name = "RightPicture";
-            this.RightPicture.Size = new System.Drawing.Size(400, 400);
+            this.RightPicture.Size = new System.Drawing.Size(406, 400);
             this.RightPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.RightPicture.TabIndex = 1;
             this.RightPicture.TabStop = false;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 418);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(200, 162);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Open Image";
-            this.button1.UseVisualStyleBackColor = true;
+            this.openBt.Location = new System.Drawing.Point(12, 418);
+            this.openBt.Name = "button1";
+            this.openBt.Size = new System.Drawing.Size(200, 162);
+            this.openBt.TabIndex = 2;
+            this.openBt.Text = "Open Image";
+            this.openBt.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(218, 418);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(200, 162);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Save Image";
-            this.button2.UseVisualStyleBackColor = true;
+            this.saveBt.Location = new System.Drawing.Point(218, 418);
+            this.saveBt.Name = "button2";
+            this.saveBt.Size = new System.Drawing.Size(200, 162);
+            this.saveBt.TabIndex = 3;
+            this.saveBt.Text = "Save Image";
+            this.saveBt.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(435, 418);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(200, 50);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Plus Edit";
-            this.button3.UseVisualStyleBackColor = true;
+            this.redBt.Location = new System.Drawing.Point(435, 418);
+            this.redBt.Name = "button3";
+            this.redBt.Size = new System.Drawing.Size(200, 50);
+            this.redBt.TabIndex = 4;
+            this.redBt.Text = "Red Accent";
+            this.redBt.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(435, 474);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(200, 50);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "Cross Edit";
-            this.button4.UseVisualStyleBackColor = true;
+            this.greenBt.Location = new System.Drawing.Point(435, 474);
+            this.greenBt.Name = "button4";
+            this.greenBt.Size = new System.Drawing.Size(200, 50);
+            this.greenBt.TabIndex = 5;
+            this.greenBt.Text = "Green Accent";
+            this.greenBt.UseVisualStyleBackColor = true;
             // 
             // progressBar1
             // 
@@ -112,12 +114,12 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(435, 530);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(200, 50);
-            this.button5.TabIndex = 7;
-            this.button5.Text = "Triangle Edit";
-            this.button5.UseVisualStyleBackColor = true;
+            this.blueBt.Location = new System.Drawing.Point(435, 530);
+            this.blueBt.Name = "button5";
+            this.blueBt.Size = new System.Drawing.Size(200, 50);
+            this.blueBt.TabIndex = 7;
+            this.blueBt.Text = "Blue Accent";
+            this.blueBt.UseVisualStyleBackColor = true;
             // 
             // button6
             // 
@@ -137,25 +139,54 @@
             this.button7.Text = "Darker Edit";
             this.button7.UseVisualStyleBackColor = true;
             // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Location = new System.Drawing.Point(641, 530);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            250,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(200, 26);
+            this.numericUpDown1.TabIndex = 10;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(853, 660);
+            this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
-            this.Controls.Add(this.button5);
+            this.Controls.Add(this.blueBt);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.greenBt);
+            this.Controls.Add(this.redBt);
+            this.Controls.Add(this.saveBt);
+            this.Controls.Add(this.openBt);
             this.Controls.Add(this.RightPicture);
             this.Controls.Add(this.LeftPicture);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.LeftPicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RightPicture)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -164,16 +195,17 @@
 
         private System.Windows.Forms.PictureBox LeftPicture;
         private System.Windows.Forms.PictureBox RightPicture;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button openBt;
+        private System.Windows.Forms.Button saveBt;
+        private System.Windows.Forms.Button redBt;
+        private System.Windows.Forms.Button greenBt;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button blueBt;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }
 
