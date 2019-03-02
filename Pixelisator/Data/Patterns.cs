@@ -1,247 +1,97 @@
 ﻿using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 namespace Pixelisator.Data
 {
     static class Patterns
     {
-        //data
+        //constructors
         static Patterns()
         {
-            //Progress.Counter = 0;
+            imageAttributes = new ImageAttributes();
+            ChangedOnce = new System.Action(ShowMessage);
         }
-        static Color curPixel = Color.Transparent,
-            upPixel = Color.Transparent,
-            rightPixel = Color.Transparent,
-            downPixel = Color.Transparent,
-            leftPixel = Color.Transparent,
-            upRightPixel = Color.Transparent,
-            rightDownPixel = Color.Transparent,
-            downLeftPixel = Color.Transparent,
-            leftUpPixel = Color.Transparent;
+
+        //data
         static public Bitmap Bitmap { get; set; }
         static public event System.Action ChangedOnce;
+        static public ImageAttributes imageAttributes;
 
-        static public void ImageToBitmap(Image image) => Bitmap = (Bitmap)image;
-
-        //- -- -+- -- - Drawing Patterns - -- -+- -- -
-        public static void PlusEdit()
+        //methods
+        static void ShowMessage() => MessageBox.Show("Completed! There are " + Progress.Counter.ToString() + " pixels changed!");
+        static public void ImageToBitmap() => Bitmap = (Bitmap)Progress.WorkImage;
+        static public void BitmapToImage() => Progress.WorkImage = Bitmap;
+        static public Color[] GetMatrix(int x, int y)
         {
-            for (int x = 1; x < Bitmap.Width - 2; x++)
-            {
-                for (int y = 1; y < Bitmap.Height - 2; y++)
+            Color[] colors = new Color[4] {
+                Bitmap.GetPixel(x, y),
+                Bitmap.GetPixel(x+1, y),
+                Bitmap.GetPixel(x, y+1),
+                Bitmap.GetPixel(x+1, y+1)
+            };
+            return colors;
+        }
+        public static void RedAccent()
+        {
+            int min, allMin;
+            for (int x = 0; x < Bitmap.Width - 1; x++)
+                for (int y = 0; y < Bitmap.Height - 1; y++)
                 {
-                    //store pixels
-                    curPixel = Bitmap.GetPixel(x, y);
-                    upPixel = Bitmap.GetPixel(x, y - 1);
-                    downPixel = Bitmap.GetPixel(x, y + 1);
-                    rightPixel = Bitmap.GetPixel(x + 1, y);
-                    leftPixel = Bitmap.GetPixel(x - 1, y);
+                    Color curPixel = Bitmap.GetPixel(x, y);
+                    min = System.Math.Min(curPixel.G, curPixel.B);
+                    allMin = System.Math.Min(min, curPixel.R);
 
-                    //comparing
-                    if (upPixel.Equals(rightPixel))
-                        if (upPixel.Equals(leftPixel))
-                            if (upPixel.Equals(downPixel))
-                                if (!upPixel.Equals(curPixel))
-                                {
-                                    Bitmap.SetPixel(x, y, upPixel);
-                                    Progress.Counter++;
-                                    continue;
-                                }
+                    if (curPixel.R - Progress.Step < curPixel.G || curPixel.R - Progress.Step < curPixel.B)
+                        curPixel = Color.FromArgb(allMin, allMin, allMin);
+                    Bitmap.SetPixel(x, y, curPixel);
                 }
-            }
-            ChangedOnce();
         }
 
-        public static void TriangleEdit()
+        public static void GreenAccent()
         {
-            for (int x = 1; x < Bitmap.Width - 2; x++)
-            {
-                for (int y = 1; y < Bitmap.Height - 2; y++)
-                {
-                    //store pixels
-                    curPixel = Bitmap.GetPixel(x, y);
-                    upPixel = Bitmap.GetPixel(x, y - 1);
-                    downPixel = Bitmap.GetPixel(x, y + 1);
-                    rightPixel = Bitmap.GetPixel(x + 1, y);
-                    leftPixel = Bitmap.GetPixel(x - 1, y);
-
-                    //up-oriented comparing
-                    if (upPixel.Equals(rightPixel))
-                        if (upPixel.Equals(leftPixel))
-                            if (!upPixel.Equals(curPixel))
-                            {
-                                Bitmap.SetPixel(x, y, upPixel);
-                                Progress.Counter++;
-                                continue;
-                            }
-
-                    //right-oriented comparing
-                    if (rightPixel.Equals(upPixel))
-                        if (rightPixel.Equals(downPixel))
-                            if (!rightPixel.Equals(curPixel))
-                            {
-                                Bitmap.SetPixel(x, y, rightPixel);
-                                Progress.Counter++;
-                                continue;
-                            }
-
-                    //down-oriented comparing
-                    if (downPixel.Equals(rightPixel))
-                        if (downPixel.Equals(leftPixel))
-                            if (!downPixel.Equals(curPixel))
-                            {
-                                Bitmap.SetPixel(x, y, downPixel);
-                                Progress.Counter++;
-                                continue;
-                            }
-
-                    //left-oriented comparing
-                    if (leftPixel.Equals(upPixel))
-                        if (leftPixel.Equals(downPixel))
-                            if (!leftPixel.Equals(curPixel))
-                            {
-                                Bitmap.SetPixel(x, y, leftPixel);
-                                Progress.Counter++;
-                                continue;
-                            }
+            int min, allMin;
+            for (int x = 0; x < Bitmap.Width - 1; x++)
+                for (int y = 0; y < Bitmap.Height - 1; y++) {
+                    Color curPixel = Bitmap.GetPixel(x, y);
+                    min = System.Math.Min(curPixel.R, curPixel.B);
+                    allMin = System.Math.Min(min, curPixel.G);
+                    if (curPixel.G - Progress.Step < curPixel.R || curPixel.G - Progress.Step < curPixel.B)
+                        curPixel = Color.FromArgb(allMin, allMin, allMin);
+                    Bitmap.SetPixel(x, y, curPixel);
                 }
-            }
-            ChangedOnce();
         }
 
-        public static void CrossEdit()
+        public static void BlueAccent()
         {
-            for (int x = 1; x < Bitmap.Width - 2; x++)
-            {
-                for (int y = 1; y < Bitmap.Height - 2; y++)
+            int min, allMin;
+            for (int x = 0; x < Bitmap.Width - 1; x++)
+                for (int y = 0; y < Bitmap.Height - 1; y++)
                 {
-                    //store pixels
-                    curPixel = Bitmap.GetPixel(x, y);
-                    upRightPixel = Bitmap.GetPixel(x + 1, y - 1);
-                    rightDownPixel = Bitmap.GetPixel(x + 1, y + 1);
-                    downLeftPixel = Bitmap.GetPixel(x - 1, y + 1);
-                    leftUpPixel = Bitmap.GetPixel(x - 1, y - 1);
-
-                    //comparing
-                    if (upRightPixel.Equals(rightDownPixel))
-                        if (upRightPixel.Equals(downLeftPixel))
-                            if (upRightPixel.Equals(leftUpPixel))
-                                if (!upRightPixel.Equals(curPixel))
-                                {
-                                    Bitmap.SetPixel(x, y, upRightPixel);
-                                    Progress.Counter++;
-                                }
+                    Color curPixel = Bitmap.GetPixel(x, y);
+                    min = System.Math.Min(curPixel.R, curPixel.G);
+                    allMin = System.Math.Min(min, curPixel.B);
+                    if (curPixel.B - Progress.Step < curPixel.R || curPixel.B - Progress.Step < curPixel.G)
+                        curPixel = Color.FromArgb(allMin, allMin, allMin);
+                    Bitmap.SetPixel(x, y, curPixel);
                 }
-            }
-            ChangedOnce();
         }
 
-        public static void LighterEdit()
+        public static void ThreeToOneEdit()
         {
-            for (int x = 1; x < Bitmap.Width - 2; x++)
-            {
-                for (int y = 1; y < Bitmap.Height - 2; y++)
+            int h = Bitmap.Height-2,
+                w = Bitmap.Width-2;
+
+            for (int i = 0; i < h; i++)
+                for (int j = 0; j < w; j++)
                 {
-
-                    //store pixels
-                    curPixel = Bitmap.GetPixel(x, y);
-                    upPixel = Bitmap.GetPixel(x, y - 1);
-                    downPixel = Bitmap.GetPixel(x, y + 1);
-                    rightPixel = Bitmap.GetPixel(x + 1, y);
-                    leftPixel = Bitmap.GetPixel(x - 1, y);
-
-                    //up-right-oriented comparing
-                    if (upPixel.GetSaturation() == rightPixel.GetSaturation())
-                        if (curPixel.GetSaturation() > upPixel.GetSaturation())
-                        {
-                            Bitmap.SetPixel(x, y, upPixel);
-                            Progress.Counter++;
-                            continue;
-                        }
-
-                    //down-right-oriented comparing
-                    if (downPixel.GetSaturation() == rightPixel.GetSaturation())
-                        if (curPixel.GetSaturation() > downPixel.GetSaturation())
-                        {
-                            Bitmap.SetPixel(x, y, downPixel);
-                            Progress.Counter++;
-                            continue;
-                        }
-
-                    //down-left-oriented comparing
-                    if (downPixel.GetSaturation() == leftPixel.GetSaturation())
-                        if (curPixel.GetSaturation() > downPixel.GetSaturation())
-                        {
-                            Bitmap.SetPixel(x, y, downPixel);
-                            Progress.Counter++;
-                            continue;
-                        }
-
-                    //up-left-oriented comparing
-                    if (upPixel.GetSaturation() == leftPixel.GetSaturation())
-                        if (curPixel.GetSaturation() > upPixel.GetSaturation())
-                        {
-                            Bitmap.SetPixel(x, y, upPixel);
-                            Progress.Counter++;
-                            continue;
-                        }
+                    if (i % 2 != 0 || i % 2 != 0)
+                        continue;
+                    Color[] colors = GetMatrix(h,w);
+                    colors[1] = colors[0];
+                    colors[2] = colors[0];
+                    colors[3] = colors[0];
                 }
-            }
-            ChangedOnce();
-        }
-
-        public static void DarkerEdit()
-        {
-
-            for (int x = 1; x < Bitmap.Width - 2; x++)
-            {
-                for (int y = 1; y < Bitmap.Height - 2; y++)
-                {
-                    //store pixels
-                    curPixel = Bitmap.GetPixel(x, y);
-                    upPixel = Bitmap.GetPixel(x, y - 1);
-                    downPixel = Bitmap.GetPixel(x, y + 1);
-                    rightPixel = Bitmap.GetPixel(x + 1, y);
-                    leftPixel = Bitmap.GetPixel(x - 1, y);
-
-                    //up-right-oriented comparing
-                    if (upPixel.GetSaturation() == rightPixel.GetSaturation())
-                        if (curPixel.GetSaturation() < upPixel.GetSaturation())
-                        {
-                            Bitmap.SetPixel(x, y, upPixel);
-                            Progress.Counter++;
-                            continue;
-                        }
-
-                    //down-right-oriented comparing
-                    if (downPixel.GetSaturation() == rightPixel.GetSaturation())
-                        if (curPixel.GetSaturation() < downPixel.GetSaturation())
-                        {
-                            Bitmap.SetPixel(x, y, downPixel);
-                            Progress.Counter++;
-                            continue;
-                        }
-
-                    //down-left-oriented comparing
-                    if (downPixel.GetSaturation() == leftPixel.GetSaturation())
-                        if (curPixel.GetSaturation() < downPixel.GetSaturation())
-                        {
-                            Bitmap.SetPixel(x, y, downPixel);
-                            Progress.Counter++;
-                            continue;
-                        }
-
-                    //up-left-oriented comparing
-                    if (upPixel.GetSaturation() == leftPixel.GetSaturation())
-                        if (curPixel.GetSaturation() < upPixel.GetSaturation())
-                        {
-                            Bitmap.SetPixel(x, y, upPixel);
-                            Progress.Counter++;
-                            continue;
-                        }
-                }
-            }
-            ChangedOnce();
         }
     }
 }
