@@ -1,17 +1,13 @@
 ﻿using System.Drawing;
 
-namespace Pixelisator.Data
-{
-    static class Progress
-    {
-        //data
+namespace Pixelisator.Data {
+    static class Progress {
         static public int Counter { get; set; }
         static public int Step { get; set; }
         static public Graphics OutGraphics { get; set; }
         static public Image WorkImage { get; set; }
 
-        static public void ShowResult()
-        {
+        static public void ShowResult() {
            OutGraphics = Graphics.FromImage(WorkImage);
 
             OutGraphics.DrawImage(WorkImage,
