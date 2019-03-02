@@ -3,131 +3,92 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using static Pixelisator.Data.FileController;
 
 namespace Pixelisator
 {
-    public partial class Form1 : Form
-    {
-        //- -- -+- -- - Class Data - -- -+- -- -
-        Image PictureFromFile;
-        bool isOpened = false;
-        //- -- -+- -- - Class Data - -- -+- -- -
+    public partial class Form1 : Form {
+        //public ref OpenFileDialog GetDialog() { return ref openFileDialog1; }
 
         public Form1()
         {
             InitializeComponent();
-            button1.Click += Button1_Click;
-            button2.Click += Button2_Click;
-            button3.Click += Button3_Click;
-            button4.Click += Button4_Click;
-            button5.Click += Button5_Click;
+            RightPicture.MouseDown += RightPicture_MouseDown; ;
+            openBt.Click += OpenBt;
+            saveBt.Click += SaveBt;
+            redBt.Click += RedAccent;
+            greenBt.Click += GreenAccentBt;
+            blueBt.Click += BlueAccentBt;
             button6.Click += Button6_Click;
             button7.Click += Button7_Click;
-            Data.Patterns.ChangedOnce += ChangedOnce;
+            //Data.Patterns.ChangedOnce += Progress_ChangedOnce;
+            numericUpDown1.ValueChanged += NumericUpDown1_ValueChanged;
         }
 
-        private void ChangedOnce() => MessageBox.Show("Completed! There are " + Data.Progress.Counter.ToString() + " pixels changed!");
-
-        //- -- -+- -- - File Part - -- -+- -- -
-        void OpenImage()
+        private void RightPicture_MouseDown(object sender, MouseEventArgs e)
         {
-            DialogResult dr = openFileDialog1.ShowDialog();
-            if (dr == DialogResult.OK)
-            {
-                PictureFromFile = Image.FromFile(openFileDialog1.FileName);
-                LeftPicture.Image = PictureFromFile;
-                RightPicture.Image = PictureFromFile;
-                isOpened = true;
-            }
+            int x = e.X, 
+                y = e.Y;
+
+            // if (x == 1 || y == 1)
+                // RightPicture.Hide();
         }
 
-        public void Reload()
-        {
-            if (!isOpened)
-                MessageBox.Show("Open an Image then apply changes");
-            else if (isOpened)
-            {
-                PictureFromFile = Image.FromFile(openFileDialog1.FileName);
-                RightPicture.Image = PictureFromFile;
-                isOpened = true;
-            }
-        }
+        private void NumericUpDown1_ValueChanged(object sender, EventArgs e) => Data.Progress.Step = (int)numericUpDown1.Value;
 
-        void SaveImage()
-        {
-            if (isOpened)
-            {
-                SaveFileDialog sfd = new SaveFileDialog { Filter = "Images|*.png;*.bmp;*.jpg" };
-                ImageFormat format = ImageFormat.Png;
-                if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    string ext = Path.GetExtension(sfd.FileName);
-                    switch (ext)
-                    {
-                        case ".jpg":
-                            format = ImageFormat.Jpeg;
-                            break;
-                        case ".bmp":
-                            format = ImageFormat.Bmp;
-                            break;
-                    }
-                    RightPicture.Image.Save(sfd.FileName, format);
-                }
-            }
-            else
-                MessageBox.Show("No image loaded, first upload image ");
-        }
-        //- -- -+- -- - File Part - -- -+- -- -
+        //private void Progress_ChangedOnce() { }
 
+        //Buttons Interface
+        private void OpenBt(object sender, EventArgs e) => Data.FileController.OpenImage(ref this.openFileDialog1);
+        private void SaveBt(object sender, EventArgs e) => Data.FileController.SaveImage();
+        private void RedAccent(object sender, EventArgs e) {
 
-
-        //- -- -+- -- - Buttons Interface - -- -+- -- -
-        private void Button1_Click(object sender, EventArgs e) => OpenImage();
-        private void Button2_Click(object sender, EventArgs e) => SaveImage();
-        private void Button3_Click(object sender, EventArgs e)
-        {
             progressBar1.Value = 0;
-            Data.Patterns.ImageToBitmap(PictureFromFile);
-            Data.Patterns.PlusEdit();
+            Data.Patterns.ImageToBitmap();
+            Data.Patterns.RedAccent();
+            Data.Patterns.BitmapToImage();
+            Data.Progress.ShowResult();
+            Reload();
+
+            progressBar1.Value = 1000;
+        }
+        private void GreenAccentBt(object sender, EventArgs e) {
+            progressBar1.Value = 0;
+            Data.Patterns.ImageToBitmap();
+            Data.Patterns.GreenAccent();
+            Data.Patterns.BitmapToImage();
+            Data.Progress.ShowResult();
+
+            Reload();
+            progressBar1.Value = 1000;
+        }
+        private void BlueAccentBt(object sender, EventArgs e) {
+
+            progressBar1.Value = 0;
+
+            Data.Patterns.ImageToBitmap();
+            Data.Patterns.BlueAccent();
+            Data.Patterns.BitmapToImage();
+            Data.Progress.ShowResult();
+
+            Reload();
+
+            progressBar1.Value = 1000;
+        }
+        private void Button6_Click(object sender, EventArgs e) {
+
+            progressBar1.Value = 0;
+            Data.Patterns.ImageToBitmap();
+            Data.Patterns.ThreeToOneEdit();
             Data.Progress.ShowResult();
             progressBar1.Value = 1000;
         }
-        private void Button4_Click(object sender, EventArgs e)
-        {
-            progressBar1.Value = 0;
-            Data.Patterns.ImageToBitmap(PictureFromFile);
-            Data.Patterns.PlusEdit();
-            Data.Progress.ShowResult();
-            progressBar1.Value = 1000;
-        }
-        private void Button5_Click(object sender, EventArgs e)
-        {
-            progressBar1.Value = 0;
-            Data.Patterns.ImageToBitmap(PictureFromFile);
-            Data.Patterns.PlusEdit();
-            Data.Progress.ShowResult();
-            progressBar1.Value = 1000;
-        }
-        private void Button6_Click(object sender, EventArgs e)
-        {
-            progressBar1.Value = 0;
-            Data.Patterns.ImageToBitmap(PictureFromFile);
-            Data.Patterns.PlusEdit();
-            Data.Progress.ShowResult();
-            progressBar1.Value = 1000;
-        }
-        private void Button7_Click(object sender, EventArgs e)
-        {
-            progressBar1.Value = 0;
-            Data.Patterns.ImageToBitmap(PictureFromFile);
-            Data.Patterns.PlusEdit();
-            Data.Progress.ShowResult();
-            progressBar1.Value = 1000;
-        }
-        //- -- -+- -- - Buttons Interface - -- -+- -- -
+        private void Button7_Click(object sender, EventArgs e) {
 
-        //- -- -+- -- - Drawing Engine - -- -+- -- -
-       
-        //- -- -+- -- - Drawing Engine - -- -+- -- -
+            progressBar1.Value = 0;
+            Data.Patterns.ImageToBitmap();
+            Data.Progress.ShowResult();
+            progressBar1.Value = 1000;
+        }
     }
 }
