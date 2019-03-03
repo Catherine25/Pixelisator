@@ -3,13 +3,11 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
-using System.Threading;
 
 namespace Pixelisator {
     public partial class Form1 : Form {
         public Form1() {
             InitializeComponent();
-            SetAutoSizeMode(AutoSizeMode.GrowAndShrink);
             WorkPicture.MouseDown += RightPicture_MouseDown; ;
             openBt.Click += OpenBt;
             saveBt.Click += SaveBt;
