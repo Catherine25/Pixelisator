@@ -9,17 +9,16 @@ namespace Pixelisator.Data {
         static public void OpenImage(ref OpenFileDialog dialog) {
             DialogResult dr = dialog.ShowDialog();
             if (dr == DialogResult.OK) {
-                Data.Progress.WorkImage = Image.FromFile(dialog.FileName);
-                Data.ImageController.WorkImage = Data.Progress.WorkImage;
-                Data.ImageController.LoadedImage = Data.Progress.WorkImage;
+                Data.ImageController.setImageToBitmap(Image.FromFile(dialog.FileName));
                 Data.Flags.isOpen = true;
             }
         }
-        static public void Reload() {
+        static public void Reload(ref OpenFileDialog openFileDialog,
+        ref PictureBox picture) {
             if (!Flags.isOpen)
                 MessageBox.Show("Open an Image then apply changes");
             else if (Flags.isOpen) {
-                Data.ImageController.WorkImage = Data.Progress.WorkImage;
+                picture.Image = Image.FromFile(openFileDialog.FileName);
                 Flags.isOpen = true;
             }
         }
@@ -40,7 +39,7 @@ namespace Pixelisator.Data {
                             format = ImageFormat.Bmp;
                             break;
                     }
-                    Data.ImageController.WorkImage.Save(sfd.FileName, format);
+                    Data.ImageController.getBitmapAsImage().Save(sfd.FileName, format);
                 }
             }
             else MessageBox.Show("No image loaded, firstly upload image");
