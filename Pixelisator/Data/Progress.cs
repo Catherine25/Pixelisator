@@ -8,11 +8,11 @@ namespace Pixelisator.Data {
         static public Image WorkImage { get; set; }
 
         static public void ShowResult() {
-           OutGraphics = Graphics.FromImage(WorkImage);
+           OutGraphics = Graphics.FromImage(ImageController.getBitmapAsImage());
 
-            OutGraphics.DrawImage(WorkImage,
-                new Rectangle(0, 0, WorkImage.Width, WorkImage.Height),
-                0, 0, WorkImage.Width, WorkImage.Height, GraphicsUnit.Pixel, Patterns.imageAttributes);
+            OutGraphics.DrawImage(ImageController.getBitmapAsImage(),
+                new Rectangle(0, 0, ImageController.getWorkImageWidth(), ImageController.getWorkImageHeight()),
+                0, 0, ImageController.getWorkImageWidth(), ImageController.getWorkImageHeight(), GraphicsUnit.Pixel, Patterns.imageAttributes);
 
             OutGraphics.Dispose();
         }
