@@ -3,14 +3,14 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.Threading;
 
 namespace Pixelisator {
     public partial class Form1 : Form {
-        //public ref OpenFileDialog GetDialog() { return ref openFileDialog1; }
-
         public Form1() {
             InitializeComponent();
-            RightPicture.MouseDown += RightPicture_MouseDown; ;
+            SetAutoSizeMode(AutoSizeMode.GrowAndShrink);
+            WorkPicture.MouseDown += RightPicture_MouseDown; ;
             openBt.Click += OpenBt;
             saveBt.Click += SaveBt;
             redBt.Click += RedAccent;
@@ -29,69 +29,71 @@ namespace Pixelisator {
             /* if (x == 1 || y == 1)
             RightPicture.Hide();
             */ 
-                
         }
 
         private void NumericUpDown1_ValueChanged(object sender, EventArgs e) {
-            Data.Progress.Step = (int)numericUpDown1.Value;  
-        } 
+            Data.Progress.Step = (int)numericUpDown1.Value;
+        }
 
         private void Progress_ChangedOnce() { }
 
         //Buttons Interface
         private void OpenBt(object sender, EventArgs e) {
-            Data.FileController.OpenImage(ref this.openFileDialog1);
+            Data.FileController.OpenImage(ref openFileDialog1);
+            WorkPicture.Image = Data.ImageController.getBitmapAsImage();
         } 
         private void SaveBt(object sender, EventArgs e) {
             Data.FileController.SaveImage();
         }
         private void RedAccent(object sender, EventArgs e) {
-
+            if(!Data.Flags.isOpen) {
+                MessageBox.Show("No image to edit!");
+                return;
+            }
             progressBar1.Value = 0;
-            Data.ImageController.ImageToBitmap();
             Data.Patterns.RedAccent();
-            Data.ImageController.BitmapToImage();
-            Data.Progress.ShowResult();
-            //Reload();
-
+            WorkPicture.Image = Data.ImageController.getBitmapAsImage();
             progressBar1.Value = 1000;
         }
         private void GreenAccentBt(object sender, EventArgs e) {
+            if(!Data.Flags.isOpen) {
+                MessageBox.Show("No image to edit!");
+                return;
+            }
             progressBar1.Value = 0;
-            Data.ImageController.ImageToBitmap();
             Data.Patterns.GreenAccent();
-            Data.ImageController.BitmapToImage();
-            Data.Progress.ShowResult();
-
-            //Reload();
+            WorkPicture.Image = Data.ImageController.getBitmapAsImage();
             progressBar1.Value = 1000;
         }
         private void BlueAccentBt(object sender, EventArgs e) {
-
+            if(!Data.Flags.isOpen) {
+                MessageBox.Show("No image to edit!");
+                return;
+            }
             progressBar1.Value = 0;
-
-            Data.ImageController.ImageToBitmap();
             Data.Patterns.BlueAccent();
-            Data.ImageController.BitmapToImage();
-            Data.Progress.ShowResult();
-
-            //Reload();
-
+            WorkPicture.Image = Data.ImageController.getBitmapAsImage();
             progressBar1.Value = 1000;
         }
         private void Button6_Click(object sender, EventArgs e) {
-
+            if(!Data.Flags.isOpen) {
+                MessageBox.Show("No image to edit!");
+                return;
+            }
             progressBar1.Value = 0;
-            Data.ImageController.ImageToBitmap();
-            Data.Patterns.ThreeToOneEdit();
-            Data.Progress.ShowResult();
+            //Data.ImageController.ImageToBitmap();
+            //Data.Patterns.ThreeToOneEdit();
+            //Data.Progress.ShowResult();
             progressBar1.Value = 1000;
         }
         private void Button7_Click(object sender, EventArgs e) {
-
+            if(!Data.Flags.isOpen) {
+                MessageBox.Show("No image to edit!");
+                return;
+            }
             progressBar1.Value = 0;
-            Data.ImageController.ImageToBitmap();
-            Data.Progress.ShowResult();
+            //Data.ImageController.ImageToBitmap();
+            //Data.Progress.ShowResult();
             progressBar1.Value = 1000;
         }
     }
