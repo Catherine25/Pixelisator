@@ -260,3 +260,8 @@ paket-files/
 __pycache__/
 *.pyc
 Pixelisator/Form1.Designer.cs
+Pixelisator.sln
+.vscode/launch.json
+.vscode/tasks.json
+Pixelisator/Program.exe
+Pixelisator.sln
