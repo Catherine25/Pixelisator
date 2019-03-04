@@ -5,7 +5,9 @@
         buttonHeight = 50,
         drawingPoint = 820,
         offset = 10;
+
         private System.ComponentModel.IContainer components = null;
+
         protected override void Dispose(bool disposing) {
             if (disposing && (components != null))
                 components.Dispose();
@@ -29,6 +31,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.WorkPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
+            this.MaximizeBox = false;
             // 
             // WorkPicture
             // 
